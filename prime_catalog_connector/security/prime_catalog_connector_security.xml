@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="module_prime_catalog_connector"
+                model="ir.module.category">
+            <field name="name">Prime Catalog Connector</field>
+            <field name="sequence">0</field>
+            <field name="visible" eval="0"/>
+        </record>
+
+        <record id="group_prime_catalog_connector_user" model="res.groups">
+            <field name="name">Prime Catalog Connector User</field>
+            <field name="category_id" ref="module_prime_catalog_connector"/>
+            <field name="implied_ids" eval="[
+                   (6, 0, [
+                   ref('connector.group_connector_manager'),
+                   ]),]"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+            <field name="comment">Inherits: out of the box Connector Manager
+Actions:
+    - Connectors
+        - Prime Catalog
+            - Backends
+        - Mapping
+            - Types
+            - Fields
+            - Odoo to Catalog Mapping
+            </field>
+        </record>
+
+        <record id="group_prime_catalog_connector_user_debug" model="res.groups">
+            <field name="name">DEBUG</field>
+            <field name="category_id" ref="module_prime_catalog_connector"/>
+            <field name="implied_ids" eval="[]"/>
+            <field name="users" eval="[]"/>
+            <field name="comment">Inherits: N/A - please provide access to see DEBUG views on product form and on backend form
+Actions:
+    - Products:
+        - QTY by Locs tab
+        - Pricing tab
+        - Sales
+        - Variants
+    - Backends
+        - Test Tab
+        - Actions
+            </field>
+        </record>
+
+        <!-- Menu Group Access -->
+        <record id='prime_catalog_root_menu'
+                model='ir.ui.menu'>
+            <field name='groups_id'
+                   eval="[(4, ref('prime_catalog_connector.group_prime_catalog_connector_user'))]"/>
+        </record>
+        <record id='prime_catalog_backend_menu'
+                model='ir.ui.menu'>
+            <field name='groups_id'
+                   eval="[(4, ref('prime_catalog_connector.group_prime_catalog_connector_user'))]"/>
+        </record>
+        <record id='mapping_root_menu'
+                model='ir.ui.menu'>
+            <field name='groups_id'
+                   eval="[(4, ref('prime_catalog_connector.group_prime_catalog_connector_user'))]"/>
+        </record>
+        <record id='mapping_types_menu'
+                model='ir.ui.menu'>
+            <field name='groups_id'
+                   eval="[(4, ref('prime_catalog_connector.group_prime_catalog_connector_user'))]"/>
+        </record>
+        <record id='mapping_fields_menu'
+                model='ir.ui.menu'>
+            <field name='groups_id'
+                   eval="[(4, ref('prime_catalog_connector.group_prime_catalog_connector_user'))]"/>
+        </record>
+        <record id='mapping_odoo_to_catalog_mapping_menu'
+                model='ir.ui.menu'>
+            <field name='groups_id'
+                   eval="[(4, ref('prime_catalog_connector.group_prime_catalog_connector_user'))]"/>
+        </record>
+
+        <!-- Forms Group Access -->
+        <record id="view_security_prime_catalog_backend_form" model="ir.ui.view">
+            <field name="name">prime.catalog.backend.form</field>
+            <field name="model">prime.catalog.backend</field>
+            <field name="priority">11</field>
+            <field name="inherit_id" ref="prime_catalog_connector.view_prime_catalog_backend_form"/>
+            <field name="arch" type="xml">
+                <page name="actions" position="attributes">
+                    <attribute name="groups">prime_catalog_connector.group_prime_catalog_connector_user_debug</attribute>
+                </page>
+                <page name="test" position="attributes">
+                    <attribute name="groups">prime_catalog_connector.group_prime_catalog_connector_user_debug</attribute>
+                </page>
+            </field>
+        </record>
+
+        <record id="view_security_product_template_tree" model="ir.ui.view">
+            <field name="name">product.template.tree.inherit</field>
+            <field name="model">product.template</field>
+            <field name="priority">11</field>
+            <field name="inherit_id" ref="prime_catalog_connector.view_product_template_tree"/>
+            <field name="arch" type="xml">
+                <field name="name" position="attributes">
+                    <attribute name="groups">prime_catalog_connector.group_prime_catalog_connector_user_debug</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_security_product_template_form" model="ir.ui.view">
+            <field name="name">product.template.form.inherit</field>
+            <field name="model">product.template</field>
+            <field name="priority">11</field>
+            <field name="inherit_id" ref="prime_catalog_connector.view_product_template_form"/>
+            <field name="arch" type="xml">
+                <group name="external_sku_debug" position="attributes">
+                    <attribute name="groups">prime_catalog_connector.group_prime_catalog_connector_user_debug</attribute>
+                </group>
+                <page name="qty_by_locs_debug" position="attributes">
+                    <attribute name="groups">prime_catalog_connector.group_prime_catalog_connector_user_debug</attribute>
+                </page>
+                <page name="pricing_debug" position="attributes">
+                    <attribute name="groups">prime_catalog_connector.group_prime_catalog_connector_user_debug</attribute>
+                </page>
+                <page name="sales_debug" position="attributes">
+                    <attribute name="groups">prime_catalog_connector.group_prime_catalog_connector_user_debug</attribute>
+                </page>
+                <page name="variant_debug" position="attributes">
+                    <attribute name="groups">prime_catalog_connector.group_prime_catalog_connector_user_debug</attribute>
+                </page>
+            </field>
+        </record>
+
+    </data>
+</openerp>

@@ -1,0 +1,74 @@
+image: vauxoo/odoo-80-image-shippable-auto
+
+variables:
+    VERSION: "9.0"
+    ODOO_REPO: "odoo/odoo"
+    TESTS: "0"
+    LINT_CHECK: "0"
+    ODOO_LINT: "0"
+    UNIT_TEST: "0"
+    TRANSIFEX: "0"
+    WEBLATE: "0"
+    TRAVIS_PULL_REQUEST: "false"
+    PHANTOMJS_TESTS: "0"
+    INSTANCE_ALIVE: "0"
+    TRAVIS_BUILD_DIR: ${CI_PROJECT_DIR}
+
+stages:
+    - check_linters
+    - test
+    - deploy
+
+cache:
+    paths:
+      - ${HOME}/.cache/pip/
+      - ${HOME}/.ssh
+
+before_script:
+    # # install ssh-agent
+    # - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    # # run ssh-agent
+    # - eval $(ssh-agent -s)
+    # # add ssh key stored in SSH_PRIVATE_KEY variable to the agent store
+    # - ssh-add <(echo "$SSH_PRIVATE_KEY" | base64 --decode)
+    # # disable host key checking (NOTE: makes you susceptible to man-in-the-middle attacks)
+    # # WARNING: use only in docker container, if you use it with shell you will overwrite your user's ssh config
+    # - mkdir -p ~/.ssh
+    # - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    # #
+    - ln -s ${HOME}/build/${ODOO_REPO} ${HOME}/${ODOO_REPO#*/}-${VERSION}
+    - git clone --depth=1 https://github.com/Vauxoo/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
+    - pip install -r ${HOME}/maintainer-quality-tools/travis/requirements.txt
+    - pip install -q QUnitSuite flake8 coveralls pylint
+    - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
+
+test_flake8_pylint_odoo_lint:
+    stage: check_linters
+    script:
+        - export LINT_CHECK="1"
+        - export ODOO_LINT="1"
+        - export TESTS="0"
+        - travis_install_nightly
+        - export PYLINT_EXPECTED_ERRORS="2"
+        - travis_run_tests
+
+unit_tests_template:
+    cache:
+        paths:
+          - ${HOME}/odoo-${VERSION}
+    stage: test
+    script:
+        - export TESTS="1"
+        - travis_install_nightly
+        - cd ${HOME}
+        - git clone https://github.com/OCA/connector.git --branch=9.0
+        - cp -R ${HOME}/connector/* ${CI_PROJECT_DIR}
+        - travis_run_tests
+        - travis_after_tests_success
+
+deploy_to_dev:
+    stage: deploy
+    script:
+      - echo "Deploy to DEV server"
+    only:
+        - 'develop'

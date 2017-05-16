@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+
+        <record model="ir.sequence" id="seq_pr_id">
+            <field name="name">Product Template SKU</field>
+            <field name="code">product.template</field>
+            <field name="prefix">SKU</field>
+            <field name="padding">10</field>
+        </record>
+
+        <function model="product.template" name="re_generate_skus" />
+
+    </data>
+</openerp>

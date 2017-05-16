@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_external_service_attribute_type,access_external_service_attribute_type,model_external_service_attribute_type,,1,1,1,1
+access_external_service_attribute,access_external_service_attribute,model_external_service_attribute,,1,1,1,1
+access_external_service_attribute_map,access_external_service_attribute_map,model_external_service_attribute_map,,1,1,1,1
+access_prime_catalog_backend,access_prime_catalog_backend,model_prime_catalog_backend,,1,1,1,1

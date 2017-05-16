@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_prime_catalog_backend_form" model="ir.ui.view">
+            <field name="name">prime.catalog.backend.form</field>
+            <field name="model">prime.catalog.backend</field>
+            <field name="priority">10</field>
+            <field name="arch" type="xml">
+                <form string="Prime Catalog Backend">
+                    <header>
+                        <button
+                            name="synchronize_metadata"
+                            type="object"
+                            class="oe_highlight"
+                            string="Synchronize Metadata"
+                            icon="gtk-refresh"
+                        />
+                    </header>
+                    <sheet>
+                        <notebook>
+                            <page name="settings" string="Settings">
+                                <separator string="Metadata"/>
+                                <group col="3">
+                                    <label for="name"/>
+                                    <label for="version"/>
+                                    <label for="url"/>
+                                    <field name="name" nolabel="1"/>
+                                    <field name="version" nolabel="1"/>
+                                    <field name="url" nolabel="1"/>
+                                </group>
+
+                                <separator string="Credentials"/>
+                                <group col="4">
+                                    <label for="login" colspan="2"/>
+                                    <div colspan="2">
+                                        <label for="password" class="oe_inline"/>
+                                        <field name="show_password" nolabel="1" widget="toggle_button" class="oe_inline"/>
+                                    </div>
+                                    <field name="login" nolabel="1" colspan="2"/>
+                                    <div colspan="2">
+                                        <field
+                                            name="password"
+                                            nolabel="1"
+                                            password="True"
+                                            attrs="{'invisible': [('show_password', '=', True)]}"
+                                        />
+                                        <field
+                                            name="password"
+                                            nolabel="1"
+                                            password="False"
+                                            attrs="{'invisible': [('show_password', '!=', True)]}"
+                                        />
+                                    </div>
+                                </group>
+
+                                <separator string="Token"/>
+                                <button
+                                    name="revoke_token"
+                                    type="object"
+                                    class="oe_highlight"
+                                    string="Revoke Token"
+                                    icon="gtk-refresh"
+                                />
+                                <group col="10">
+                                    <field
+                                        name="show_token"
+                                        nolabel="1"
+                                        widget="toggle_button"
+                                        colspan="1"
+                                    />
+                                    <div colspan="9">
+                                        <field
+                                            name="token"
+                                            password="True"
+                                            attrs="{'invisible': [('show_token', '=', True)]}"/>
+                                        <field
+                                            name="token"
+                                            password="False"
+                                            attrs="{'invisible': [('show_token', '!=', True)]}"/>
+                                    </div>
+                                </group>
+                            </page>
+                            <page name="actions" string="Actions">
+                                <group col="4">
+                                    <button
+                                        name="export_products"
+                                        type="object"
+                                        class="oe_highlight"
+                                        string="Export Products"
+                                        icon="gtk-execute"
+                                        colspan="2"
+                                    />
+                                    <button
+                                        name="delete_products"
+                                        type="object"
+                                        class="oe_highlight"
+                                        string="Delete Products"
+                                        icon="gtk-cancel"
+                                        colspan="2"
+                                    />
+                                    <button
+                                        name="generate_demo_products"
+                                        type="object"
+                                        class="oe_highlight"
+                                        string="Generate Demo Products"
+                                        icon="gtk-go-forward"
+                                        colspan="2"
+                                    />
+                                    <field name="counter_demo_product" colspan="2"/>
+                                </group>
+                            </page>
+                            <page name="test" string="Test">
+                                <group>
+                                    <field name="test_method" />
+                                    <button
+                                        name="test_job"
+                                        string="Test"
+                                        type="object"
+                                    />
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="view_esa_form" model="ir.ui.view">
+            <field name="name">external.service.attribute.form</field>
+            <field name="model">external.service.attribute</field>
+            <field name="arch" type="xml">
+                <form string="Fields">
+                    <sheet>
+                        <group>
+                            <field name="backend_id" />
+                            <field name="parent_id" />
+                            <field name="code" />
+                            <field name="type_id" />
+                            <field name="additional_info" />
+                            <field name="child_ids" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_esa_list" model="ir.ui.view">
+            <field name="name">external.service.attribute.list</field>
+            <field name="model">external.service.attribute</field>
+            <field name="arch" type="xml">
+                <tree string="Fields">
+                    <field name="backend_id" />
+                    <field name="display_name" />
+                    <field name="type_id" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_esa_search" model="ir.ui.view">
+            <field name="name">external.service.attribute.search</field>
+            <field name="model">external.service.attribute</field>
+            <field name="arch" type="xml">
+                <search>
+                    <filter string="Only Main" name="only_main" domain="[('parent_id','=',False)]"/>
+                    <separator/>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_esam_form" model="ir.ui.view">
+            <field name="name">external.service.attribute.map.form</field>
+            <field name="model">external.service.attribute.map</field>
+            <field name="arch" type="xml">
+                <form string="Mapping Field">
+                    <sheet>
+                        <group>
+                            <field name="backend_id" />
+                            <field name="model_name" />
+                            <field name="parent_id" />
+                            <field name="odoo_attribute" context="{'esam_id': active_id}" />
+                            <field name="external_attribute" widget="selection" />
+                            <field name="additional_key" />
+                            <field name="active" />
+                            <field name="child_ids" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_esam_list" model="ir.ui.view">
+            <field name="name">external.service.attribute.map.list</field>
+            <field name="model">external.service.attribute.map</field>
+            <field name="arch" type="xml">
+                <tree string="Mapping Fields">
+                    <field name="backend_id" />
+                    <field name="display_name" />
+                    <field name="active" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_esam_search" model="ir.ui.view">
+            <field name="name">external.service.attribute.map.search</field>
+            <field name="model">external.service.attribute.map</field>
+            <field name="arch" type="xml">
+                <search>
+                    <filter string="Only Main" name="only_main" domain="[('parent_id','=',False)]"/>
+                    <separator/>
+                </search>
+            </field>
+        </record>
+
+        <record id="prime_catalog_backend_action" model="ir.actions.act_window">
+            <field name="name">Prime Catalog Backend</field>
+            <field name="res_model">prime.catalog.backend</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="mapping_types_action" model="ir.actions.act_window">
+            <field name="name">External Service Attribute Mapping</field>
+            <field name="res_model">external.service.attribute.type</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="mapping_fields_action" model="ir.actions.act_window">
+            <field name="name">External Service Attribute</field>
+            <field name="res_model">external.service.attribute</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_only_main': 1}</field>
+            <field name="search_view_id" ref="view_esa_search"/>
+        </record>
+
+        <record id="mapping_odoo_to_catalog_mapping_action" model="ir.actions.act_window">
+            <field name="name">External Service Attribute Mapping</field>
+            <field name="res_model">external.service.attribute.map</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_only_main': 1}</field>
+            <field name="search_view_id" ref="view_esam_search"/>
+        </record>
+
+        <menuitem id="prime_catalog_root_menu"
+                  parent="connector.menu_connector_root"
+                  name="Prime Catalog"
+                  sequence="10"/>
+
+        <menuitem id="prime_catalog_backend_menu"
+                  name="Backends"
+                  parent="prime_catalog_root_menu"
+                  action="prime_catalog_backend_action"/>
+
+        <menuitem id="mapping_root_menu"
+                  parent="connector.menu_connector_root"
+                  name="Mapping"
+                  sequence="11"/>
+
+        <menuitem id="mapping_types_menu"
+                  name="Types"
+                  parent="mapping_root_menu"
+                  action="mapping_types_action"/>
+
+        <menuitem id="mapping_fields_menu"
+                  name="Fields"
+                  parent="mapping_root_menu"
+                  action="mapping_fields_action"/>
+
+        <menuitem id="mapping_odoo_to_catalog_mapping_menu"
+                  name="Odoo to Catalog Mapping"
+                  parent="mapping_root_menu"
+                  action="mapping_odoo_to_catalog_mapping_action"/>
+
+    </data>
+</odoo>
