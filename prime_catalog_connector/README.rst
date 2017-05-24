@@ -13,13 +13,14 @@ Odoo -> Prime Catalog
 * Product data
 * Inventory
 * Sales
-* Vandors
+* Vendors
 * Pricing
 * Orders
 
 Automatizations:
 
 * Automatic send data to Prime Catalog if any product data changed
+* Automatic send data to Prime Catalog if any product qty changed
 
 Technical points:
 
@@ -37,7 +38,7 @@ Installation
 * 1.2. Go to `Prime Catalog / Backends`
 * 1.3. Click `Create`
 
-.. figure:: ../prime_catalog_connector/static/description/images/create_new_backend_1.png
+.. figure:: ../prime_catalog_connector/static/description/create_new_backend_1.png
    :scale: 60 %
    :alt: Sample Create New Backend 1st step
 
@@ -47,20 +48,20 @@ Installation
 * 2.4. Fill your `Username`
 * 2.5. Fill your `Password`
 
-.. figure:: ../prime_catalog_connector/static/description/images/create_new_backend_2.png
+.. figure:: ../prime_catalog_connector/static/description/create_new_backend_2.png
    :scale: 60 %
    :alt: Sample Create New Backend 2nd step
 
 * 3.1 Click `Revoke Token`
 * 3.2 See that you received new token
 
-.. figure:: ../prime_catalog_connector/static/description/images/revoke_token.png
+.. figure:: ../prime_catalog_connector/static/description/revoke_token.png
    :scale: 60 %
    :alt: Sample Revoke Token
 
 * 4.1 Click `Synchronize Metadata` button
 
-.. figure:: ../prime_catalog_connector/static/description/images/synchronize_metadata.png
+.. figure:: ../prime_catalog_connector/static/description/synchronize_metadata.png
    :scale: 60 %
    :alt: Sample Synchronize Metadata
 
